@@ -13,7 +13,7 @@ class val ByteArrays is (ValBytes & Hashable)
     _right = right
     _left_size = _left.size()
 
-  fun size(): USize => _left.size() + _right.size()
+  fun size(): USize => _left_size + _right.size()
 
   fun apply(i: USize): U8 ? =>
     if i < _left_size then
@@ -99,7 +99,7 @@ class val ByteArrays is (ValBytes & Hashable)
     """
     String.from_array(trim(from, to))
 
-  fun array(): Array[U8] val => trim(0, size() - 1)
+  fun array(): Array[U8] val => trim(0, size())
 
   fun val add(other: (ValBytes | String)): ByteArrays =>
     """
@@ -226,9 +226,9 @@ class val ByteArrays is (ValBytes & Hashable)
       _SipHash24[ByteArrays box](this).usize()
     end
 
-  fun read_u8[T: U8](offset: USize): U8 ? => this(offset)?
+  fun read_u8[T: U8 = U8](offset: USize): U8 ? => this(offset)?
 
-  fun read_u16[T:U8](offset: USize): U16 ? =>
+  fun read_u16[T: U8 = U8](offset: USize): U16 ? =>
     let end_offset = offset + U16(0).bytewidth()
     if end_offset <= _left_size then
       // we can conveniently use left's implementation of read_u8
@@ -242,7 +242,7 @@ class val ByteArrays is (ValBytes & Hashable)
       (this(offset + 1)?.u16() << 8)
     end
 
-  fun read_u32[T:U8](offset: USize): U32 ? =>
+  fun read_u32[T: U8 = U8](offset: USize): U32 ? =>
     let end_offset = offset + U32(0).bytewidth()
     if end_offset <= _left_size then
       // we can conveniently use left's implementation of read_u8
@@ -258,7 +258,7 @@ class val ByteArrays is (ValBytes & Hashable)
       (this(offset + 3)?.u32() << 24)
     end
 
-  fun read_u64[T:U8](offset: USize): U64 ? =>
+  fun read_u64[T: U8 = U8](offset: USize): U64 ? =>
     let end_offset = offset + U64(0).bytewidth()
     if end_offset <= _left_size then
       // we can conveniently use left's implementation of read_u8
@@ -278,7 +278,7 @@ class val ByteArrays is (ValBytes & Hashable)
       (this(offset + 7)?.u64() << 56)
     end
 
-  fun read_u128[T:U8](offset: USize): U128 ? =>
+  fun read_u128[T: U8 = U8](offset: USize): U128 ? =>
     let end_offset = offset + U128(0).bytewidth()
     if end_offset <= _left_size then
       // we can conveniently use left's implementation of read_u8
