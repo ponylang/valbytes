@@ -29,11 +29,14 @@ test: unit-tests build-examples
 unit-tests: $(tests_binary)
 	$^ --exclude=integration --sequential
 
-$(tests_binary): $(SOURCE_FILES) | $(BUILD_DIR)
+$(tests_binary): .deps $(SOURCE_FILES) | $(BUILD_DIR)
 	stable env $(PONYC) -o ${BUILD_DIR} $(SRC_DIR)/test --bin-name=$(PACKAGE)
 
-build-examples: $(SOURCE_FILES) $(EXAMPLES_SOURCE_FILES) | $(BUILD_DIR)
+build-examples: .deps $(SOURCE_FILES) $(EXAMPLES_SOURCE_FILES) | $(BUILD_DIR)
 	find examples/*/* -name '*.pony' -print | xargs -n 1 dirname  | sort -u | grep -v ffi- | xargs -n 1 -I {} stable env $(PONYC) -s --checktree -o $(BUILD_DIR) {}
+
+.deps:
+	stable fetch
 
 clean:
 	rm -rf $(BUILD_DIR)
