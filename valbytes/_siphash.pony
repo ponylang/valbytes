@@ -1,4 +1,85 @@
-primitive _SipHash24
+
+class ref SipHash24Streaming
+  """
+  Provides SipHash24 for non-array data
+  given as separate `U64`s.
+
+  ### Usage:
+
+  ```pony
+  use "collections"
+
+  actor Main
+    new create(env: Env) =>
+      try
+        let sip = SipHash24Streaming.create()
+        for x in Range[U64](1, 100).values() do
+          // feed consecutive U64s to be hashed
+          sip.update(x)
+        end
+        // execute finishing steps, reset internal state so this instance can be
+        // reused, and output the computed hash
+        let hash = sip.finish()
+        env.out.print("HASHED: " + hash.string())
+      end
+  ```
+
+  """
+  var _v0: U64 = 0
+  var _v1: U64 = 0
+  var _v2: U64 = 0
+  var _v3: U64 = 0
+
+  var _size: USize = 0
+
+  new ref create() =>
+    reset()
+
+  fun ref reset() =>
+    """
+    Reset the internal state.
+    """
+    _v0 = SipHash24._k0() xor 0x736f6d6570736575
+    _v1 = SipHash24._k1() xor 0x646f72616e646f6d
+    _v2 = SipHash24._k0() xor 0x6c7967656e657261
+    _v3 = SipHash24._k1() xor 0x7465646279746573
+    _size = 0
+
+  fun ref update(m: U64) =>
+    """
+    Hash the given `m` and update the internal state accordingly.
+    """
+    _v3 = _v3 xor m
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    _v0 = _v0 xor m
+    _size = _size + 8
+
+  fun ref finish(): U64 =>
+    """
+    This method finally computes the hash from all the data added with `update`,
+    and resets the internal state,
+    so this instance can be conveniently reused for another hash calculation.
+    """
+    let b = (_size << USize(56)).u64()
+    _v3 = _v3 xor b
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    _v0 = _v0 xor b
+    _v2 = _v2 xor 0xFF
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = SipHash24._sipround64(_v0, _v1, _v2, _v3)
+
+    let result = _v0 xor _v1 xor _v2 xor _v3
+    reset() // BEWARE
+    result
+
+primitive SipHash24
+
+  fun _k0(): U64 => U64(0x8A109C6B22D309FE)
+  fun _k1(): U64 => U64(0x9F923FCCB57235E1)
 
   fun _sipround64(v0: U64, v1: U64, v2: U64, v3: U64): (U64, U64, U64, U64) =>
     var t0 = v0 + v1
@@ -20,16 +101,13 @@ primitive _SipHash24
     (t0, t1, t2, t3)
 
   fun apply[T: ReadSeq[U8] #read](data: T): U64 =>
-    let k0 = U64(0x8A109C6B22D309FE)
-    let k1 = U64(0x9F923FCCB57235E1)
-
     let size = data.size()
     var b: U64  = (size << USize(56)).u64()
 
-    var v0 = k0 xor 0x736f6d6570736575
-    var v1 = k1 xor 0x646f72616e646f6d
-    var v2 = k0 xor 0x6c7967656e657261
-    var v3 = k1 xor 0x7465646279746573
+    var v0 = _k0() xor 0x736f6d6570736575
+    var v1 = _k1() xor 0x646f72616e646f6d
+    var v2 = _k0() xor 0x6c7967656e657261
+    var v3 = _k1() xor 0x7465646279746573
 
     let endi: USize = size - (size % 8)
 
@@ -99,7 +177,53 @@ primitive _SipHash24
     end
 
 
-primitive _HalfSipHash24
+class ref HalfSipHash24Streaming
+  var _v0: U32 = 0
+  var _v1: U32 = 0
+  var _v2: U32 = 0
+  var _v3: U32 = 0
+
+  var _size: USize = 0
+
+  new ref create() =>
+    reset()
+
+  fun ref reset() =>
+    """
+    Reset the internal state.
+    """
+    _v0 = HalfSipHash24._k0() xor 0x736f6d65
+    _v1 = HalfSipHash24._k1() xor 0x646f7261
+    _v2 = HalfSipHash24._k0() xor 0x6c796765
+    _v3 = HalfSipHash24._k1() xor 0x74656462
+    _size = 0
+
+  fun ref update(m: U32) =>
+    _v3 = _v3 xor m
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    _v0 = _v0 xor m
+    _size = _size + 4
+
+  fun ref finish(): U32 =>
+    let b  = (_size << USize(24)).u32()
+    _v3 = _v3 xor b
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    _v0 = _v0 xor b
+    _v2 = _v2 xor 0xFF
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
+    let result = _v0 xor _v1 xor _v2 xor _v3
+    reset()
+    result
+
+primitive HalfSipHash24
+
+  fun _k0(): U32 => U32(0x22D309FE)
+  fun _k1(): U32 => U32(0x8A109C6B)
 
   fun _sipround32(v0: U32, v1: U32, v2: U32, v3: U32): (U32, U32, U32, U32) =>
     var t0 = v0 + v1
@@ -120,16 +244,14 @@ primitive _HalfSipHash24
     (t0, t1, t2, t3)
 
   fun apply[T: ReadSeq[U8] #read](data: T): U32 =>
-    let k0 = U32(0x22D309FE)
-    let k1 = U32(0x8A109C6B)
 
     let size = data.size()
     var b: U32  = (size << USize(24)).u32()
 
-    var v0 = k0 xor 0x736f6d65
-    var v1 = k1 xor 0x646f7261
-    var v2 = k0 xor 0x6c796765
-    var v3 = k1 xor 0x74656462
+    var v0 = _k0() xor 0x736f6d65
+    var v1 = _k1() xor 0x646f7261
+    var v2 = _k0() xor 0x6c796765
+    var v3 = _k1() xor 0x74656462
 
     let endi: USize = size - (size % 4)
 
@@ -152,7 +274,7 @@ primitive _HalfSipHash24
         (v0, v1, v2, v3) = _sipround32(v0, v1, v2, v3)
         v0 = v0 xor m
 
-        i = i + 8
+        i = i + 4
       end
 
       // bad emulation of a C switch statement with  fallthrough

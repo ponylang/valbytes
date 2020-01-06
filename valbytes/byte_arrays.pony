@@ -221,9 +221,9 @@ class val ByteArrays is (ValBytes & Hashable)
 
   fun hash(): USize =>
     ifdef ilp32 then
-      _HalfSipHash24[ByteArrays box](this).usize()
+      HalfSipHash24[ByteArrays box](this).usize()
     else
-      _SipHash24[ByteArrays box](this).usize()
+      SipHash24[ByteArrays box](this).usize()
     end
 
   fun read_u8[T: U8 = U8](offset: USize): U8 ? => this(offset)?
