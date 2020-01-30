@@ -14,6 +14,7 @@ actor Main is TestList
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](HashProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](DropProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](TakeProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](SelectProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](ValuesProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](ApplyProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](TrimProperty))
@@ -148,6 +149,21 @@ class iso TakeProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.trim(0, middle),
       sample._2.take(middle).array())
 
+class iso SelectProperty is Property1[(Array[U8] val, ByteArrays)]
+  fun name(): String => "valbytes/select/property"
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=100)
+
+  fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
+    let sample_size = sample._1.size()
+    //h.log("SAMPLE " + sample._2.debug())
+    h.assert_array_eq[U8](sample._1, sample._2.select().array())
+    let some = USize(10).min(sample_size)
+    //h.log("TAKE " + sample._2.select(0, some).debug())
+    h.assert_array_eq[U8](sample._1.trim(0, some), sample._2.select(0, some).array())
+    //h.log("DROP " + sample._2.select(some, -1).debug())
+    h.assert_array_eq[U8](sample._1.trim(some), sample._2.select(some, -1).array())
+
+    h.assert_array_eq[U8](sample._1.trim(some, sample_size), sample._2.select(some, sample_size))
 
 class iso ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/values/property"

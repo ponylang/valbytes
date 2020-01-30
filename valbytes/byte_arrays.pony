@@ -6,11 +6,11 @@ class val ByteArrays is (ValBytes & Hashable)
   let _left_size: USize
 
   new val create(
-    left: ValBytes = recover val Array[U8](0) end,
-    right: ValBytes = recover val Array[U8](0) end
+    left': ValBytes = recover val Array[U8](0) end,
+    right': ValBytes = recover val Array[U8](0) end
   ) =>
-    _left = left
-    _right = right
+    _left = left'
+    _right = right'
     _left_size = _left.size()
 
   fun size(): USize => _left_size + _right.size()
@@ -36,19 +36,60 @@ class val ByteArrays is (ValBytes & Hashable)
         _left_values.has_next() or _right_values.has_next()
     end
 
-  fun drop(amount: USize): ByteArrays =>
-    if amount < _left_size then
-      ByteArrays(_left.trim(amount, -1), _right)
-    else
-      let right_skip = amount - _left_size
-      ByteArrays(_right.trim(right_skip, -1))
-    end
+  fun val drop(amount: USize): ByteArrays =>
+    select(amount, -1)
 
-  fun take(amount: USize): ByteArrays =>
-    if amount < _left_size then
-      ByteArrays(_left.trim(0, amount))
+  fun val take(amount: USize): ByteArrays =>
+    select(0, amount)
+
+  fun val select(from: USize = 0, to: USize = -1): ByteArrays =>
+    match (from, to)
+    | (0, -1) => this
+    | (0, _left_size) =>
+      ByteArrays(_left)
+    | (_left_size, -1) =>
+      ByteArrays(_right)
+    | (let f: USize, let t: USize) if t <= _left_size =>
+      ByteArrays(
+        match _left
+        | let lb: ByteArrays => lb.select(f, t)
+        | let vb: ValBytes   => vb.trim(f, t)
+        end
+      )
+    | (let f: USize, let t: USize) if f >= _left_size=>
+      ByteArrays(
+        match _right
+        | let lb: ByteArrays => lb.select(f - _left_size, t - _left_size)
+        | let vb: ValBytes   => vb.trim(f - _left_size, t - _left_size)
+        end
+      )
+    | (let f: USize, -1) if f < _left_size=>
+      ByteArrays(
+        match _left
+        | let lb: ByteArrays => lb.select(f, -1)
+        | let vb: ValBytes   => vb.trim(f, -1)
+        end,
+        _right
+      )
+    | (0, let t: USize) if t > _left_size =>
+      ByteArrays(
+        _left,
+        match _right
+        | let lb: ByteArrays => lb.select(0, t - _left_size)
+        | let vb: ValBytes   => vb.trim(0, t - _left_size)
+        end
+      )
     else
-      ByteArrays(_left, _right.trim(0, amount - _left_size))
+      ByteArrays(
+        match _left
+        | let lb: ByteArrays => lb.select(from, -1)
+        | let vb: ValBytes   => vb.trim(from, -1)
+        end,
+        match _right
+        | let lb: ByteArrays => lb.select(0, to - _left_size)
+        | let vb: ValBytes   => vb.trim(0, to - _left_size)
+        end
+      )
     end
 
   fun trim(from: USize = 0 , to: USize = -1): Array[U8] val =>
@@ -123,6 +164,24 @@ class val ByteArrays is (ValBytes & Hashable)
     else
       ByteArrays(this, that)
     end
+
+  fun val left(): ByteArrays => select(0, _left_size)
+  fun val right(): ByteArrays => select(_left_size, -1)
+
+  fun val debug(): String =>
+    let ls =
+      match _left
+      | let ba: ByteArrays => ba.debug()
+      | let vb: ValBytes => "[" + left().string() + "]"
+      end
+    let rs =
+      match _right
+      | let ba: ByteArrays => ba.debug()
+      | let vb: ValBytes => "[" + right().string() + "]"
+      end
+
+    "[" + ls + "-" + rs + "]"
+
 
   fun find(sub: ReadSeq[U8], start: USize = 0, stop: USize = -1): (Bool, USize) =>
     """
