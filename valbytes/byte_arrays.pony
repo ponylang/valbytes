@@ -1,6 +1,8 @@
-use "collections"
+use "collections/persistent"
+use mut = "collections"
+use "debug"
 
-class val ByteArrays is (ValBytes & Hashable)
+class val ByteArrays is (ValBytes & mut.Hashable)
   let _left: ValBytes
   let _right: ValBytes
   let _left_size: USize
@@ -34,6 +36,74 @@ class val ByteArrays is (ValBytes & Hashable)
         end
       fun ref has_next(): Bool =>
         _left_values.has_next() or _right_values.has_next()
+    end
+
+  fun val byteseqs(): Iterator[Array[U8] val] ref^ =>
+    let that = this
+    object ref is Iterator[Array[U8] val]
+      var _stack: List[ByteArrays] = Nil[ByteArrays]
+      var _current: ByteArrays = that
+      var _use_next: (Array[U8] val | None) = None
+      var _has_next: Bool = that.size() > 0
+
+      fun has_next(): Bool => _has_next
+
+      fun ref next(): Array[U8] val ? =>
+        // special case for consuming current._right
+        match _use_next
+        | let a: Array[U8] val =>
+          //Debug("right leaf at: " + _current.debug())
+          _use_next = None
+          match _stack
+          | let n: Nil[ByteArrays] =>
+            //Debug("stack empty - stopping")
+            _has_next = false
+          | let c: Cons[ByteArrays] =>
+            // pop from stack, to get the parent as current for next run
+            //Debug("pop from stack: " + c.head().debug())
+            match c.head().right()
+            | let b: ByteArrays =>
+              _current = b
+            | let right_a: Array[U8] val =>
+              _use_next = right_a
+            end
+            _stack = c.tail()
+          end
+          return a
+        end
+
+        // traverse to the leftmost leaf from current
+        var is_leaf = false
+        repeat
+          match _current.left()
+          | let b: ByteArrays =>
+            //Debug("putting " + _current.debug() + " onto the stack")
+            _stack = _stack.prepend(_current)
+            _current = b
+          else
+            is_leaf = true
+          end
+        until is_leaf end
+        // current.left is no ByteArrays anymore
+        match _current.left()
+        | let a: Array[U8] val =>
+          //Debug("left leaf at: " + _current.debug())
+          // we reached left
+          // prepare next run handling the right side
+          match _current.right()
+          | let right_b: ByteArrays =>
+            //Debug("right is bytearrays")
+            _current = right_b
+          | let right_a: Array[U8] val =>
+            //Debug("right is leaf")
+            _use_next = right_a
+          else
+            error
+          end
+          return a
+        else
+          error
+        end
     end
 
   fun val drop(amount: USize): ByteArrays =>
@@ -165,19 +235,33 @@ class val ByteArrays is (ValBytes & Hashable)
       ByteArrays(this, that)
     end
 
-  fun val left(): ByteArrays => select(0, _left_size)
-  fun val right(): ByteArrays => select(_left_size, -1)
+  fun val left(): ValBytes => _left
+  fun val right(): ValBytes => _right
 
   fun val debug(): String =>
     let ls =
       match _left
       | let ba: ByteArrays => ba.debug()
-      | let vb: ValBytes => "[" + left().string() + "]"
+      | let vb: ValBytes =>
+        "[" +
+        match left()
+        | let lb: ByteArrays    => lb.debug()
+        | let la: Array[U8] val => String.from_array(la)
+        | let lv: ValBytes      => recover val String.>concat(lv.values()) end
+        end +
+        "]"
       end
     let rs =
       match _right
       | let ba: ByteArrays => ba.debug()
-      | let vb: ValBytes => "[" + right().string() + "]"
+      | let vb: ValBytes =>
+        "[" +
+        match right()
+        | let rb: ByteArrays => rb.debug()
+        | let ra: Array[U8] val => String.from_array(ra)
+        | let rv: ValBytes      => recover val String.>concat(rv.values()) end
+        end
+        + "]"
       end
 
     "[" + ls + "-" + rs + "]"

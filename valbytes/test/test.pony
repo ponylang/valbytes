@@ -21,6 +21,7 @@ actor Main is TestList
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](FindProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](AddProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](ReadNumericProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ByteSeqsProperty))
 
 
 
@@ -263,5 +264,17 @@ class iso AddProperty is Property1[(Array[U8] val, ByteArrays)]
     let added_array = recover val sample._1.clone().>append(add_me) end
     let added_ba = sample._2 + add_me
     h.assert_array_eq[U8](added_array, added_ba.array())
+
+class iso ByteSeqsProperty is Property1[(Array[U8] val, ByteArrays)]
+  fun name(): String => "valbytes/byteseqs/property"
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+
+  fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
+    h.log(sample._2.debug())
+    let acc: Array[U8] iso = recover iso Array[U8](sample._1.size()) end
+    for byteseq in sample._2.byteseqs() do
+      acc.append(byteseq)
+    end
+    h.assert_array_eq[U8](sample._1, consume acc)
 
 
