@@ -38,71 +38,75 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         _left_values.has_next() or _right_values.has_next()
     end
 
-  fun val byteseqs(): Iterator[Array[U8] val] ref^ =>
-    let that = this
-    object ref is Iterator[Array[U8] val]
-      var _stack: List[ByteArrays] = Nil[ByteArrays]
-      var _current: ByteArrays = that
-      var _use_next: (Array[U8] val | None) = None
-      var _has_next: Bool = that.size() > 0
+  fun val byteseqiter(): ByteSeqIter =>
+    let bytearrays = this
+    object val is ByteSeqIter
+      let that: ByteArrays = bytearrays
+      fun values(): Iterator[Array[U8] val] ref^ =>
+        object ref is Iterator[Array[U8] val]
+          var _stack: List[ByteArrays] = Nil[ByteArrays]
+          var _current: ByteArrays = that
+          var _use_next: (Array[U8] val | None) = None
+          var _has_next: Bool = that.size() > 0
 
-      fun has_next(): Bool => _has_next
+          fun has_next(): Bool => _has_next
 
-      fun ref next(): Array[U8] val ? =>
-        // special case for consuming current._right
-        match _use_next
-        | let a: Array[U8] val =>
-          //Debug("right leaf at: " + _current.debug())
-          _use_next = None
-          match _stack
-          | let n: Nil[ByteArrays] =>
-            //Debug("stack empty - stopping")
-            _has_next = false
-          | let c: Cons[ByteArrays] =>
-            // pop from stack, to get the parent as current for next run
-            //Debug("pop from stack: " + c.head().debug())
-            match c.head().right()
-            | let b: ByteArrays =>
-              _current = b
-            | let right_a: Array[U8] val =>
-              _use_next = right_a
+          fun ref next(): Array[U8] val ? =>
+            // special case for consuming current._right
+            match _use_next
+            | let a: Array[U8] val =>
+              //Debug("right leaf at: " + _current.debug())
+              _use_next = None
+              match _stack
+              | let n: Nil[ByteArrays] =>
+                //Debug("stack empty - stopping")
+                _has_next = false
+              | let c: Cons[ByteArrays] =>
+                // pop from stack, to get the parent as current for next run
+                //Debug("pop from stack: " + c.head().debug())
+                match c.head().right()
+                | let b: ByteArrays =>
+                  _current = b
+                | let right_a: Array[U8] val =>
+                  _use_next = right_a
+                end
+                _stack = c.tail()
+              end
+              return a
             end
-            _stack = c.tail()
-          end
-          return a
-        end
 
-        // traverse to the leftmost leaf from current
-        var is_leaf = false
-        repeat
-          match _current.left()
-          | let b: ByteArrays =>
-            //Debug("putting " + _current.debug() + " onto the stack")
-            _stack = _stack.prepend(_current)
-            _current = b
-          else
-            is_leaf = true
-          end
-        until is_leaf end
-        // current.left is no ByteArrays anymore
-        match _current.left()
-        | let a: Array[U8] val =>
-          //Debug("left leaf at: " + _current.debug())
-          // we reached left
-          // prepare next run handling the right side
-          match _current.right()
-          | let right_b: ByteArrays =>
-            //Debug("right is bytearrays")
-            _current = right_b
-          | let right_a: Array[U8] val =>
-            //Debug("right is leaf")
-            _use_next = right_a
-          else
-            error
-          end
-          return a
-        else
-          error
+            // traverse to the leftmost leaf from current
+            var is_leaf = false
+            repeat
+              match _current.left()
+              | let b: ByteArrays =>
+                //Debug("putting " + _current.debug() + " onto the stack")
+                _stack = _stack.prepend(_current)
+                _current = b
+              else
+                is_leaf = true
+              end
+            until is_leaf end
+            // current.left is no ByteArrays anymore
+            match _current.left()
+            | let a: Array[U8] val =>
+              //Debug("left leaf at: " + _current.debug())
+              // we reached left
+              // prepare next run handling the right side
+              match _current.right()
+              | let right_b: ByteArrays =>
+                //Debug("right is bytearrays")
+                _current = right_b
+              | let right_a: Array[U8] val =>
+                //Debug("right is leaf")
+                _use_next = right_a
+              else
+                error
+              end
+              return a
+            else
+              error
+            end
         end
     end
 

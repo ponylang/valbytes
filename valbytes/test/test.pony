@@ -272,7 +272,7 @@ class iso ByteSeqsProperty is Property1[(Array[U8] val, ByteArrays)]
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.log(sample._2.debug())
     let acc: Array[U8] iso = recover iso Array[U8](sample._1.size()) end
-    for byteseq in sample._2.byteseqs() do
+    for byteseq in sample._2.byteseqiter().values() do
       acc.append(byteseq)
     end
     h.assert_array_eq[U8](sample._1, consume acc)
