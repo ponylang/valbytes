@@ -118,6 +118,9 @@ class val ByteArrays is (ValBytes & mut.Hashable)
     select(0, amount)
 
   fun val select(from: USize = 0, to: USize = -1): ByteArrays =>
+    """
+    Get a ByteArrays instance to the selected range.
+    """
     match (from, to)
     | (0, -1) => this
     | (0, _left_size) =>
@@ -169,6 +172,8 @@ class val ByteArrays is (ValBytes & mut.Hashable)
 
   fun trim(from: USize = 0 , to: USize = -1): Array[U8] val =>
     """
+    Get the selected range as an array.
+
     In best case no additional allocation, yay!
     """
     if to < _left_size then
