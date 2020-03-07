@@ -21,7 +21,7 @@ actor Main is TestList
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](FindProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](AddProperty))
     test(Property1UnitTest[(Array[U8] val, ByteArrays)](ReadNumericProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ByteSeqsProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ArraysProperty))
 
 
 
@@ -265,16 +265,27 @@ class iso AddProperty is Property1[(Array[U8] val, ByteArrays)]
     let added_ba = sample._2 + add_me
     h.assert_array_eq[U8](added_array, added_ba.array())
 
-class iso ByteSeqsProperty is Property1[(Array[U8] val, ByteArrays)]
-  fun name(): String => "valbytes/byteseqs/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+class iso ArraysProperty is Property1[(Array[U8] val, ByteArrays)]
+  fun name(): String => "valbytes/arrays/property"
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=100)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.log(sample._2.debug())
     let acc: Array[U8] iso = recover iso Array[U8](sample._1.size()) end
-    for byteseq in sample._2.byteseqiter().values() do
-      acc.append(byteseq)
+    for array in sample._2.arrays().values() do
+      acc.append(array)
     end
     h.assert_array_eq[U8](sample._1, consume acc)
+
+class iso ArraysTest is UnitTest
+  fun name(): String => "valbytes/arrays"
+  fun apply(h: TestHelper)? =>
+    let ba = ByteArrays("abc".array(), ByteArrays("def".array()))
+    let acc = recover iso Array[U8](6) end
+    let arrs = ba.arrays()
+    h.assert_eq[USize](2, arrs.size())
+    h.assert_array_eq[U8]("abc".array(), arrs(0)?)
+    h.assert_array_eq[U8]("def".array(), arrs(1)?)
+
 
 
