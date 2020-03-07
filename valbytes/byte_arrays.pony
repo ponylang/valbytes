@@ -38,13 +38,13 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         _left_values.has_next() or _right_values.has_next()
     end
 
-  fun val arrays(): Array[Array[U8] val] val =>
+  fun val arrays(): Array[Array[U8] val] iso^ =>
     """
     Get the accumulated arrays represented by this instance
     inside an array.
     """
     // TODO: get the required size beforehand
-    let arr: Array[Array[U8] val] trn = recover trn arr.create(8) end
+    let arr: Array[Array[U8] val] iso = recover iso arr.create(8) end
     var stack: List[ByteArrays] = Nil[ByteArrays]
     var current: ByteArrays = this
     var keep_on = true
