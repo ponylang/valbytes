@@ -1,0 +1,12 @@
+{
+  "deps": [
+    {
+      "locator": "github.com/mfelsche/ponycheck.git",
+      "version": "0.5.2"
+    }
+  ],
+  "info": {
+    "description": "Library for treating a bunch of byte arrays as a single array.",
+    "name": "valbytes"
+  }
+}

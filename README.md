@@ -19,22 +19,21 @@ end
 
 ## Status
 
-[![CircleCI](https://circleci.com/gh/mfelsche/pony-valbytes.svg?style=svg)](https://circleci.com/gh/mfelsche/pony-valbytes)
-
 pony-valbytes is pre-alpha software.
 
 ## Installation
 
-* Install [pony-stable](https://github.com/ponylang/pony-stable)
-* Update your `bundle.json`
+* Add valbytes to your build dependencies using [corral](https://github.com/ponylang/corral):
 
-```json
-{
-  "type": "github",
-  "repo": "mfelsche/pony-valbytes"
-}
+```
+corral add github.com/ponylang/valbytes
 ```
 
-* `stable fetch` to fetch your dependencies
-* `use "valbytes"` to include this package
-* `stable env ponyc` to compile your application
+* Execute `corral fetch` to fetch your dependencies.
+* Include this package by adding `use "valbytes" to your pony sources.
+
+* Exeute `corral run -- ponyc` to compile your application.
+
+## Usage
+
+TBD

@@ -1,10 +1,13 @@
 config ?= release
 
 PACKAGE := valbytes
-COMPILE_WITH := ponyc
+GET_DEPENDENCIES_WITH := corral fetch
+CLEAN_DEPENDENCIES_WITH := corral clean
+COMPILE_WITH := corral run -- ponyc
 
 BUILD_DIR ?= build/$(config)
 SRC_DIR := $(PACKAGE)
+TEST_DIR := $(PACKAGE)/test
 EXAMPLES_DIR := examples
 tests_binary := $(BUILD_DIR)/$(PACKAGE)
 docs_dir := build/$(PACKAGE)-docs
@@ -29,24 +32,26 @@ test: unit-tests build-examples
 unit-tests: $(tests_binary)
 	$^ --exclude=integration --sequential
 
-$(tests_binary): .deps $(SOURCE_FILES) | $(BUILD_DIR)
-	stable env $(PONYC) -o ${BUILD_DIR} $(SRC_DIR)/test --bin-name=$(PACKAGE)
+$(tests_binary): $(SOURCE_FILES) | $(BUILD_DIR)
+	${GET_DEPENDENCIES_WITH}
+	${PONYC} -o ${BUILD_DIR} $(TEST_DIR)
 
-build-examples: .deps $(SOURCE_FILES) $(EXAMPLES_SOURCE_FILES) | $(BUILD_DIR)
-	find examples/*/* -name '*.pony' -print | xargs -n 1 dirname  | sort -u | grep -v ffi- | xargs -n 1 -I {} stable env $(PONYC) -s --checktree -o $(BUILD_DIR) {}
+build-examples: $(SOURCE_FILES) $(EXAMPLES_SOURCE_FILES) | $(BUILD_DIR)
+	${GET_DEPENDENCIES_WITH}
+	find examples/*/* -name '*.pony' -print | xargs -n 1 dirname  | sort -u | grep -v ffi- | xargs -n 1 -I {} $(PONYC) -s --checktree -o $(BUILD_DIR) {}
 
 .deps:
 	stable fetch
 
 clean:
+	${CLEAN_DEPENDENCIES_WITH}
 	rm -rf $(BUILD_DIR)
 
-realclean:
-	rm -rf build
 
 $(docs_dir): $(SOURCE_FILES)
 	rm -rf $(docs_dir)
-	stable env $(PONYC) --docs-public --pass=docs --output build $(SRC_DIR)
+	${GET_DEPENDENCIES_WITH}
+	$(PONYC) --docs-public --pass=docs --output build $(SRC_DIR)
 
 docs: $(docs_dir)
 
@@ -58,4 +63,4 @@ all: test
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY: all clean realclean TAGS test
+.PHONY: all clean TAGS test
