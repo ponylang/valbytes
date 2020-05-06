@@ -1,4 +1,4 @@
-# pony-valbytes
+# valbytes
 
 Library for dealing with concatenated byte arrays as if it was a single byte array.
 
@@ -33,7 +33,3 @@ corral add github.com/ponylang/valbytes
 * Include this package by adding `use "valbytes" to your pony sources.
 
 * Exeute `corral run -- ponyc` to compile your application.
-
-## Usage
-
-TBD
