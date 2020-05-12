@@ -9,7 +9,7 @@ BUILD_DIR ?= build/$(config)
 SRC_DIR := $(PACKAGE)
 TEST_DIR := $(PACKAGE)/test
 EXAMPLES_DIR := examples
-tests_binary := $(BUILD_DIR)/$(PACKAGE)
+tests_binary := $(BUILD_DIR)/test
 docs_dir := build/$(PACKAGE)-docs
 
 ifdef config
@@ -24,8 +24,8 @@ else
 	PONYC = $(COMPILE_WITH) --debug
 endif
 
-SOURCE_FILES := $(shell find $(SRC_DIR) -name \*.pony)
-EXAMPLE_SOURCE_FILES := $(shell find $(EXAMPLES_DIR) -name \*.pony)
+SOURCE_FILES := $(shell find $(SRC_DIR) -name *.pony)
+EXAMPLES_SOURCE_FILES := $(shell find $(EXAMPLES_DIR) -name *.pony)
 
 test: unit-tests build-examples
 
