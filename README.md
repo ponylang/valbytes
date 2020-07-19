@@ -26,7 +26,7 @@ pony-valbytes is pre-alpha software.
 * Add valbytes to your build dependencies using [corral](https://github.com/ponylang/corral):
 
 ```
-corral add github.com/ponylang/valbytes
+corral add github.com/ponylang/valbytes.git
 ```
 
 * Execute `corral fetch` to fetch your dependencies.
