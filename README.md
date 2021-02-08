@@ -33,3 +33,7 @@ corral add github.com/ponylang/valbytes.git
 * Include this package by adding `use "valbytes" to your pony sources.
 
 * Exeute `corral run -- ponyc` to compile your application.
+
+## API Documentation
+
+[https://ponylang.github.io/valbytes](https://ponylang.github.io/valbytes)
