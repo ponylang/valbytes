@@ -1,0 +1,1411 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://ponylang.github.io/valbytes/valbytes-ByteArrays/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/logo.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-ponylang-0.2.8">
+    
+    
+      
+        <title>class ByteArrays - valbytes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.b80b25f7.css">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.0b5df86e.js"></script>
+    
+    
+      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#bytearrays" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+          <a href="https://ponylang.github.io/valbytes/" title="valbytes" class="md-header-nav__button md-logo">
+          
+            <img src="../assets/images/logo.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                valbytes
+              </span>
+              <span class="md-header-nav__topic">
+                class ByteArrays
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <span class="md-nav__button md-logo">
+      
+        <img src="../assets/images/logo.png" width="48" height="48">
+      
+    </span>
+    valbytes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="valbytes" class="md-nav__link">
+      valbytes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      package valbytes
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        package valbytes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes--index/" title="Package" class="md-nav__link">
+      Package
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-Trimmable/" title="interface Trimmable" class="md-nav__link">
+      interface Trimmable
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-CopyToable/" title="interface CopyToable" class="md-nav__link">
+      interface CopyToable
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-ReadAsNumerics/" title="interface ReadAsNumerics" class="md-nav__link">
+      interface ReadAsNumerics
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-ValBytes/" title="interface ValBytes" class="md-nav__link">
+      interface ValBytes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-EmptyValBytes/" title="primitive EmptyValBytes" class="md-nav__link">
+      primitive EmptyValBytes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        class ByteArrays
+      </label>
+    
+    <a href="./" title="class ByteArrays" class="md-nav__link md-nav__link--active">
+      class ByteArrays
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        
+          <li class="md-nav__item">
+    <a href="#implements" title="Implements" class="md-nav__link">
+    Implements
+  </a>
+  
+</li>
+        
+      
+        
+          <li class="md-nav__item">
+    <a href="#constructors" title="Constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          
+            <li class="md-nav__item">
+    <a href="#create" title="create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+          
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      
+        
+          <li class="md-nav__item">
+    <a href="#public-functions" title="Public Functions" class="md-nav__link">
+    Public Functions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          
+            <li class="md-nav__item">
+    <a href="#size" title="size" class="md-nav__link">
+    size
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#apply" title="apply" class="md-nav__link">
+    apply
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#values" title="values" class="md-nav__link">
+    values
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#arrays" title="arrays" class="md-nav__link">
+    arrays
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#drop" title="drop" class="md-nav__link">
+    drop
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#take" title="take" class="md-nav__link">
+    take
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#select" title="select" class="md-nav__link">
+    select
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#trim" title="trim" class="md-nav__link">
+    trim
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#copy_to" title="copy_to" class="md-nav__link">
+    copy_to
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#string" title="string" class="md-nav__link">
+    string
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#array" title="array" class="md-nav__link">
+    array
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#add" title="add" class="md-nav__link">
+    add
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#left" title="left" class="md-nav__link">
+    left
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#right" title="right" class="md-nav__link">
+    right
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#debug" title="debug" class="md-nav__link">
+    debug
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#find" title="find" class="md-nav__link">
+    find
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#skip_while" title="skip_while" class="md-nav__link">
+    skip_while
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#skip" title="skip" class="md-nav__link">
+    skip
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#hash" title="hash" class="md-nav__link">
+    hash
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u8optional-t-u8-val" title="read_u8[optional T: U8 val]" class="md-nav__link">
+    read_u8[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u16optional-t-u8-val" title="read_u16[optional T: U8 val]" class="md-nav__link">
+    read_u16[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u32optional-t-u8-val" title="read_u32[optional T: U8 val]" class="md-nav__link">
+    read_u32[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u64optional-t-u8-val" title="read_u64[optional T: U8 val]" class="md-nav__link">
+    read_u64[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u128optional-t-u8-val" title="read_u128[optional T: U8 val]" class="md-nav__link">
+    read_u128[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-SipHash24Streaming/" title="class SipHash24Streaming" class="md-nav__link">
+      class SipHash24Streaming
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-SipHash24/" title="primitive SipHash24" class="md-nav__link">
+      primitive SipHash24
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-HalfSipHash24Streaming/" title="class HalfSipHash24Streaming" class="md-nav__link">
+      class HalfSipHash24Streaming
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../valbytes-HalfSipHash24/" title="primitive HalfSipHash24" class="md-nav__link">
+      primitive HalfSipHash24
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        
+          <li class="md-nav__item">
+    <a href="#implements" title="Implements" class="md-nav__link">
+    Implements
+  </a>
+  
+</li>
+        
+      
+        
+          <li class="md-nav__item">
+    <a href="#constructors" title="Constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          
+            <li class="md-nav__item">
+    <a href="#create" title="create" class="md-nav__link">
+    create
+  </a>
+  
+</li>
+          
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      
+        
+          <li class="md-nav__item">
+    <a href="#public-functions" title="Public Functions" class="md-nav__link">
+    Public Functions
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          
+            <li class="md-nav__item">
+    <a href="#size" title="size" class="md-nav__link">
+    size
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#apply" title="apply" class="md-nav__link">
+    apply
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#values" title="values" class="md-nav__link">
+    values
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#arrays" title="arrays" class="md-nav__link">
+    arrays
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#drop" title="drop" class="md-nav__link">
+    drop
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#take" title="take" class="md-nav__link">
+    take
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#select" title="select" class="md-nav__link">
+    select
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#trim" title="trim" class="md-nav__link">
+    trim
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#copy_to" title="copy_to" class="md-nav__link">
+    copy_to
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#string" title="string" class="md-nav__link">
+    string
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#array" title="array" class="md-nav__link">
+    array
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#add" title="add" class="md-nav__link">
+    add
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#left" title="left" class="md-nav__link">
+    left
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#right" title="right" class="md-nav__link">
+    right
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#debug" title="debug" class="md-nav__link">
+    debug
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#find" title="find" class="md-nav__link">
+    find
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#skip_while" title="skip_while" class="md-nav__link">
+    skip_while
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#skip" title="skip" class="md-nav__link">
+    skip
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#hash" title="hash" class="md-nav__link">
+    hash
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u8optional-t-u8-val" title="read_u8[optional T: U8 val]" class="md-nav__link">
+    read_u8[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u16optional-t-u8-val" title="read_u16[optional T: U8 val]" class="md-nav__link">
+    read_u16[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u32optional-t-u8-val" title="read_u32[optional T: U8 val]" class="md-nav__link">
+    read_u32[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u64optional-t-u8-val" title="read_u64[optional T: U8 val]" class="md-nav__link">
+    read_u64[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+          
+            <li class="md-nav__item">
+    <a href="#read_u128optional-t-u8-val" title="read_u128[optional T: U8 val]" class="md-nav__link">
+    read_u128[optional T: U8 val]
+  </a>
+  
+</li>
+          
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="bytearrays">ByteArrays<a class="headerlink" href="#bytearrays" title="Permanent link">&para;</a></h1>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L5">[Source]</a></span></p>
+<pre><code class="language-pony">class val ByteArrays is
+  ValBytes val,
+  Hashable ref
+</code></pre>
+<h4 id="implements">Implements<a class="headerlink" href="#implements" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../valbytes-ValBytes/">ValBytes</a> val</li>
+<li><a href="https://stdlib.ponylang.io/collections-Hashable/">Hashable</a> ref</li>
+</ul>
+<hr />
+<h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
+<h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L10">[Source]</a></span></p>
+<pre><code class="language-pony">new val create(
+  left': ValBytes val = reference,
+  right': ValBytes val = reference)
+: ByteArrays val^
+</code></pre>
+<h4 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h4>
+<ul>
+<li>left': <a href="../valbytes-ValBytes/">ValBytes</a> val = reference</li>
+<li>right': <a href="../valbytes-ValBytes/">ValBytes</a> val = reference</li>
+</ul>
+<h4 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="./">ByteArrays</a> val^</li>
+</ul>
+<hr />
+<h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
+<h3 id="size">size<a class="headerlink" href="#size" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L18">[Source]</a></span></p>
+<pre><code class="language-pony">fun box size()
+: USize val
+</code></pre>
+<h4 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<hr />
+<h3 id="apply">apply<a class="headerlink" href="#apply" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L20">[Source]</a></span></p>
+<pre><code class="language-pony">fun box apply(
+  i: USize val)
+: U8 val ?
+</code></pre>
+<h4 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h4>
+<ul>
+<li>i: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_2">Returns<a class="headerlink" href="#returns_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val ?</li>
+</ul>
+<hr />
+<h3 id="values">values<a class="headerlink" href="#values" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L27">[Source]</a></span></p>
+<pre><code class="language-pony">fun box values()
+: Iterator[U8 val] ref
+</code></pre>
+<h4 id="returns_3">Returns<a class="headerlink" href="#returns_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-Iterator/">Iterator</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] ref</li>
+</ul>
+<hr />
+<h3 id="arrays">arrays<a class="headerlink" href="#arrays" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L41">[Source]</a></span></p>
+<p>Get the accumulated arrays represented by this instance
+inside an array.</p>
+<pre><code class="language-pony">fun val arrays()
+: Array[Array[U8 val] val] iso^
+</code></pre>
+<h4 id="returns_4">Returns<a class="headerlink" href="#returns_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-Array/">Array</a>[<a href="https://stdlib.ponylang.io/builtin-Array/">Array</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] val] iso^</li>
+</ul>
+<hr />
+<h3 id="drop">drop<a class="headerlink" href="#drop" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L114">[Source]</a></span></p>
+<pre><code class="language-pony">fun val drop(
+  amount: USize val)
+: ByteArrays val
+</code></pre>
+<h4 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h4>
+<ul>
+<li>amount: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_5">Returns<a class="headerlink" href="#returns_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="./">ByteArrays</a> val</li>
+</ul>
+<hr />
+<h3 id="take">take<a class="headerlink" href="#take" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L117">[Source]</a></span></p>
+<pre><code class="language-pony">fun val take(
+  amount: USize val)
+: ByteArrays val
+</code></pre>
+<h4 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h4>
+<ul>
+<li>amount: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_6">Returns<a class="headerlink" href="#returns_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="./">ByteArrays</a> val</li>
+</ul>
+<hr />
+<h3 id="select">select<a class="headerlink" href="#select" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L120">[Source]</a></span></p>
+<p>Get a ByteArrays instance to the selected range.</p>
+<pre><code class="language-pony">fun val select(
+  from: USize val = 0,
+  to: USize val = call)
+: ByteArrays val
+</code></pre>
+<h4 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li>from: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = 0</li>
+<li>to: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = call</li>
+</ul>
+<h4 id="returns_7">Returns<a class="headerlink" href="#returns_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="./">ByteArrays</a> val</li>
+</ul>
+<hr />
+<h3 id="trim">trim<a class="headerlink" href="#trim" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L173">[Source]</a></span></p>
+<p>Get the selected range as an array.</p>
+<p>In best case no additional allocation, yay!</p>
+<pre><code class="language-pony">fun box trim(
+  from: USize val = 0,
+  to: USize val = call)
+: Array[U8 val] val
+</code></pre>
+<h4 id="parameters_5">Parameters<a class="headerlink" href="#parameters_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li>from: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = 0</li>
+<li>to: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = call</li>
+</ul>
+<h4 id="returns_8">Returns<a class="headerlink" href="#returns_8" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-Array/">Array</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] val</li>
+</ul>
+<hr />
+<h3 id="copy_to">copy_to<a class="headerlink" href="#copy_to" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L197">[Source]</a></span></p>
+<pre><code class="language-pony">fun box copy_to(
+  dst: Array[U8 val] ref,
+  src_idx: USize val,
+  dst_idx: USize val,
+  len: USize val)
+: None val
+</code></pre>
+<h4 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>dst: <a href="https://stdlib.ponylang.io/builtin-Array/">Array</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] ref</li>
+<li>src_idx: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+<li>dst_idx: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+<li>len: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_9">Returns<a class="headerlink" href="#returns_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-None/">None</a> val</li>
+</ul>
+<hr />
+<h3 id="string">string<a class="headerlink" href="#string" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L215">[Source]</a></span></p>
+<p>diverges from usual Stringable.string in that
+it can be used to get a substring of the whole ByteArrays instance
+and that the result is val and in best case no additional allocation was necessary.</p>
+<pre><code class="language-pony">fun box string(
+  from: USize val = 0,
+  to: USize val = call)
+: String val
+</code></pre>
+<h4 id="parameters_7">Parameters<a class="headerlink" href="#parameters_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li>from: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = 0</li>
+<li>to: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = call</li>
+</ul>
+<h4 id="returns_10">Returns<a class="headerlink" href="#returns_10" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-String/">String</a> val</li>
+</ul>
+<hr />
+<h3 id="array">array<a class="headerlink" href="#array" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L223">[Source]</a></span></p>
+<pre><code class="language-pony">fun box array()
+: Array[U8 val] val
+</code></pre>
+<h4 id="returns_11">Returns<a class="headerlink" href="#returns_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-Array/">Array</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] val</li>
+</ul>
+<hr />
+<h3 id="add">add<a class="headerlink" href="#add" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L225">[Source]</a></span></p>
+<p>Enable convenient concatenation via  <code>+</code> operator:</p>
+<pre><code class="language-pony">ByteArrays(&quot;a&quot;) + &quot;b&quot; + [as U8: 'c']
+</code></pre>
+<pre><code class="language-pony">fun val add(
+  other: (ValBytes val | String val))
+: ByteArrays val
+</code></pre>
+<h4 id="parameters_8">Parameters<a class="headerlink" href="#parameters_8" title="Permanent link">&para;</a></h4>
+<ul>
+<li>other: (<a href="../valbytes-ValBytes/">ValBytes</a> val | <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val)</li>
+</ul>
+<h4 id="returns_12">Returns<a class="headerlink" href="#returns_12" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="./">ByteArrays</a> val</li>
+</ul>
+<hr />
+<h3 id="left">left<a class="headerlink" href="#left" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L248">[Source]</a></span></p>
+<pre><code class="language-pony">fun val left()
+: ValBytes val
+</code></pre>
+<h4 id="returns_13">Returns<a class="headerlink" href="#returns_13" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../valbytes-ValBytes/">ValBytes</a> val</li>
+</ul>
+<hr />
+<h3 id="right">right<a class="headerlink" href="#right" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L249">[Source]</a></span></p>
+<pre><code class="language-pony">fun val right()
+: ValBytes val
+</code></pre>
+<h4 id="returns_14">Returns<a class="headerlink" href="#returns_14" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="../valbytes-ValBytes/">ValBytes</a> val</li>
+</ul>
+<hr />
+<h3 id="debug">debug<a class="headerlink" href="#debug" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L251">[Source]</a></span></p>
+<pre><code class="language-pony">fun val debug()
+: String val
+</code></pre>
+<h4 id="returns_15">Returns<a class="headerlink" href="#returns_15" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-String/">String</a> val</li>
+</ul>
+<hr />
+<h3 id="find">find<a class="headerlink" href="#find" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L282">[Source]</a></span></p>
+<p>Try to find <code>sub</code> in this ByteArrays.</p>
+<p>If found, returns a tuple with the first element being <code>true</code> and the second element
+being the starting index of <code>sub</code> in this.</p>
+<pre><code class="language-pony">let ba = ByteArrays + &quot;abc&quot; + &quot;def&quot;
+match ba.find(&quot;cd&quot;)
+| (true, let cd_index: USize) =&gt; &quot;found&quot;
+| (false, _) =&gt; &quot;not found&quot;
+end
+</code></pre>
+<pre><code class="language-pony">fun box find(
+  sub: ReadSeq[U8 val] box,
+  start: USize val = 0,
+  stop: USize val = call)
+: (Bool val , USize val)
+</code></pre>
+<h4 id="parameters_9">Parameters<a class="headerlink" href="#parameters_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li>sub: <a href="https://stdlib.ponylang.io/builtin-ReadSeq/">ReadSeq</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] box</li>
+<li>start: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = 0</li>
+<li>stop: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = call</li>
+</ul>
+<h4 id="returns_16">Returns<a class="headerlink" href="#returns_16" title="Permanent link">&para;</a></h4>
+<ul>
+<li>(<a href="https://stdlib.ponylang.io/builtin-Bool/">Bool</a> val , <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val)</li>
+</ul>
+<hr />
+<h3 id="skip_while">skip_while<a class="headerlink" href="#skip_while" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L325">[Source]</a></span></p>
+<p>returns the first index for which f returns false,
+USize.max_value() if it never returns true</p>
+<pre><code class="language-pony">fun box skip_while(
+  f: {(U8): Bool ?} val,
+  start: USize val)
+: USize val
+</code></pre>
+<h4 id="parameters_10">Parameters<a class="headerlink" href="#parameters_10" title="Permanent link">&para;</a></h4>
+<ul>
+<li>f: {(U8): Bool ?} val</li>
+<li>start: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_17">Returns<a class="headerlink" href="#returns_17" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<hr />
+<h3 id="skip">skip<a class="headerlink" href="#skip" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L345">[Source]</a></span></p>
+<p>return the first index in this that doesnt contain any element of <code>skip_chars</code>.</p>
+<p>If we reach the end while skipping USize.max_value() is returned.</p>
+<pre><code class="language-pony">fun box skip(
+  skip_chars: ReadSeq[U8 val] box,
+  start: USize val = 0)
+: USize val
+</code></pre>
+<h4 id="parameters_11">Parameters<a class="headerlink" href="#parameters_11" title="Permanent link">&para;</a></h4>
+<ul>
+<li>skip_chars: <a href="https://stdlib.ponylang.io/builtin-ReadSeq/">ReadSeq</a>[<a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val] box</li>
+<li>start: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val = 0</li>
+</ul>
+<h4 id="returns_18">Returns<a class="headerlink" href="#returns_18" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<hr />
+<h3 id="hash">hash<a class="headerlink" href="#hash" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L377">[Source]</a></span></p>
+<pre><code class="language-pony">fun box hash()
+: USize val
+</code></pre>
+<h4 id="returns_19">Returns<a class="headerlink" href="#returns_19" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<hr />
+<h3 id="read_u8optional-t-u8-val">read_u8[optional T: <a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val]<a class="headerlink" href="#read_u8optional-t-u8-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L384">[Source]</a></span></p>
+<pre><code class="language-pony">fun box read_u8[optional T: U8 val](
+  offset: USize val)
+: U8 val ?
+</code></pre>
+<h4 id="parameters_12">Parameters<a class="headerlink" href="#parameters_12" title="Permanent link">&para;</a></h4>
+<ul>
+<li>offset: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_20">Returns<a class="headerlink" href="#returns_20" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val ?</li>
+</ul>
+<hr />
+<h3 id="read_u16optional-t-u8-val">read_u16[optional T: <a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val]<a class="headerlink" href="#read_u16optional-t-u8-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L386">[Source]</a></span></p>
+<pre><code class="language-pony">fun box read_u16[optional T: U8 val](
+  offset: USize val)
+: U16 val ?
+</code></pre>
+<h4 id="parameters_13">Parameters<a class="headerlink" href="#parameters_13" title="Permanent link">&para;</a></h4>
+<ul>
+<li>offset: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_21">Returns<a class="headerlink" href="#returns_21" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U16/">U16</a> val ?</li>
+</ul>
+<hr />
+<h3 id="read_u32optional-t-u8-val">read_u32[optional T: <a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val]<a class="headerlink" href="#read_u32optional-t-u8-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L400">[Source]</a></span></p>
+<pre><code class="language-pony">fun box read_u32[optional T: U8 val](
+  offset: USize val)
+: U32 val ?
+</code></pre>
+<h4 id="parameters_14">Parameters<a class="headerlink" href="#parameters_14" title="Permanent link">&para;</a></h4>
+<ul>
+<li>offset: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_22">Returns<a class="headerlink" href="#returns_22" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U32/">U32</a> val ?</li>
+</ul>
+<hr />
+<h3 id="read_u64optional-t-u8-val">read_u64[optional T: <a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val]<a class="headerlink" href="#read_u64optional-t-u8-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L416">[Source]</a></span></p>
+<pre><code class="language-pony">fun box read_u64[optional T: U8 val](
+  offset: USize val)
+: U64 val ?
+</code></pre>
+<h4 id="parameters_15">Parameters<a class="headerlink" href="#parameters_15" title="Permanent link">&para;</a></h4>
+<ul>
+<li>offset: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_23">Returns<a class="headerlink" href="#returns_23" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U64/">U64</a> val ?</li>
+</ul>
+<hr />
+<h3 id="read_u128optional-t-u8-val">read_u128[optional T: <a href="https://stdlib.ponylang.io/builtin-U8/">U8</a> val]<a class="headerlink" href="#read_u128optional-t-u8-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="../src/valbytes/byte_arrays/#L436">[Source]</a></span></p>
+<pre><code class="language-pony">fun box read_u128[optional T: U8 val](
+  offset: USize val)
+: U128 val ?
+</code></pre>
+<h4 id="parameters_16">Parameters<a class="headerlink" href="#parameters_16" title="Permanent link">&para;</a></h4>
+<ul>
+<li>offset: <a href="https://stdlib.ponylang.io/builtin-USize/">USize</a> val</li>
+</ul>
+<h4 id="returns_24">Returns<a class="headerlink" href="#returns_24" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://stdlib.ponylang.io/builtin-U128/">U128</a> val ?</li>
+</ul>
+<hr />
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../valbytes-EmptyValBytes/" title="primitive EmptyValBytes" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                primitive EmptyValBytes
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../valbytes-SipHash24Streaming/" title="class SipHash24Streaming" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                class SipHash24Streaming
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+    <script src="../assets/javascripts/application.cb37bb38.js"></script>
+      
+      <script>app.initialize({version:"1.1.2",url:{base:".."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
