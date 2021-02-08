@@ -3,7 +3,7 @@
     "valbytes"
   ],
   "info": {
-    "description": "Library for treating a bunch of byte arrays as a single array",
+    "description": "Dealing with multiple concatenated byte-arrays as if it were a single byte-array",
     "homepage": "https://github.com/ponylang/valbytes",
     "license": "BSD-2-Clause",
     "documentation_url": "https://ponylang.github.io/valbytes/",
