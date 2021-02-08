@@ -1,12 +1,19 @@
 {
+  "packages": [
+    "valbytes"
+  ],
+  "info": {
+    "description": "Library for treating a bunch of byte arrays as a single array",
+    "homepage": "https://github.com/ponylang/valbytes",
+    "license": "BSD-2-Clause",
+    "documentation_url": "https://ponylang.github.io/valbytes/",
+    "version": "0.5.0",
+    "name": "valbytes"
+  },
   "deps": [
     {
       "locator": "github.com/mfelsche/ponycheck.git",
       "version": "0.5.2"
     }
-  ],
-  "info": {
-    "description": "Library for treating a bunch of byte arrays as a single array.",
-    "name": "valbytes"
-  }
+  ]
 }
