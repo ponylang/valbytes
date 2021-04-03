@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Don't export test types ([PR #10](https://github.com/ponylang/valbytes/pull/10))
 
 ## [0.5.1] - 2021-02-08
 
