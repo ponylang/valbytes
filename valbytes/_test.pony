@@ -1,4 +1,3 @@
-use ".."
 use "ponytest"
 use "ponycheck"
 use "debug"
@@ -8,24 +7,24 @@ actor Main is TestList
     PonyTest(env, this)
 
   fun tag tests(test: PonyTest) =>
-    test(NumericReadableTest)
-    SiphashTests.tests(test)
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](SizeProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](HashProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](DropProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](TakeProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](SelectProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ValuesProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ApplyProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](TrimProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](FindProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](AddProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ReadNumericProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](ArraysProperty))
+    test(_NumericReadableTest)
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_SizeProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_HashProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_DropProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_TakeProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_SelectProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_ValuesProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_ApplyProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_TrimProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_FindProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_AddProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_ReadNumericProperty))
+    test(Property1UnitTest[(Array[U8] val, ByteArrays)](_ArraysProperty))
+    test(Property1UnitTest[String](_SipHash24Property))
+    test(Property1UnitTest[Array[U8]](_SipHash24StreamingProperty))
+    test(Property1UnitTest[Array[U8]](_HalfSipHash24StreamingProperty))
 
-
-
-class iso NumericReadableTest is UnitTest
+class iso _NumericReadableTest is UnitTest
   fun name(): String => "valbytes/numeric-readable"
   fun apply(h: TestHelper) ? =>
     let arr: Array[U8] val = [as U8: 1; 2; 3; 4]
@@ -46,7 +45,7 @@ class iso NumericReadableTest is UnitTest
     h.assert_eq[U32](arr.read_u32(0)?, ba.read_u32(0)?)
     h.assert_error({()? => ba.read_u32(1)? })
 
-primitive ByteArrayAndSourceGen
+primitive _ByteArrayAndSourceGen
   """
   Generator that returns a continuous byte array
   and a ByteArrays instance made from random splits of the first array.
@@ -89,19 +88,19 @@ primitive ByteArrayAndSourceGen
         (immutable_arr, ba)
       })
 
-class iso SizeProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _SizeProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/size/property"
 
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.assert_eq[USize](sample._1.size(), sample._2.size())
     h.assert_array_eq[U8](sample._1, sample._2.array())
 
 
-class iso HashProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _HashProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/hash/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.assert_eq[USize](
@@ -110,9 +109,9 @@ class iso HashProperty is Property1[(Array[U8] val, ByteArrays)]
     )
 
 
-class iso DropProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _DropProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/drop/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
 
@@ -130,9 +129,9 @@ class iso DropProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._2.drop(middle).array())
 
 
-class iso TakeProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _TakeProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/take/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.assert_eq[USize](sample._1.size(), sample._2.take(sample._1.size()).size())
@@ -150,9 +149,9 @@ class iso TakeProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.trim(0, middle),
       sample._2.take(middle).array())
 
-class iso SelectProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _SelectProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/select/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=100)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=100)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     let sample_size = sample._1.size()
@@ -166,9 +165,9 @@ class iso SelectProperty is Property1[(Array[U8] val, ByteArrays)]
 
     h.assert_array_eq[U8](sample._1.trim(some, sample_size), sample._2.select(some, sample_size))
 
-class iso ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/values/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) ? =>
     let array_iter = sample._1.values()
@@ -187,9 +186,9 @@ class iso ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
     end
 
 
-class iso ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/apply/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) ? =>
     var i = USize(0)
@@ -199,9 +198,9 @@ class iso ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
     end
 
 
-class iso TrimProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _TrimProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/trim/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
 
@@ -212,9 +211,9 @@ class iso TrimProperty is Property1[(Array[U8] val, ByteArrays)]
     h.assert_array_eq[U8](sample._1, sample._2.trim())
 
 
-class iso ReadNumericProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _ReadNumericProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/read-numeric/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where min_size=16)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where min_size=16)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) ? =>
     h.assert_eq[U8](sample._1.read_u8(0)?, sample._2.read_u8(0)?)
@@ -224,18 +223,18 @@ class iso ReadNumericProperty is Property1[(Array[U8] val, ByteArrays)]
     h.assert_eq[U128](sample._1.read_u128(0)?, sample._2.read_u128(0)?)
 
 
-class iso SkipProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _SkipProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/skip/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where min_size=2, max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where min_size=2, max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     // TODO
     None
 
 
-class iso FindProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _FindProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/find/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where min_size=2, max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where min_size=2, max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     let head = sample._1.trim(0, 2)
@@ -255,9 +254,9 @@ class iso FindProperty is Property1[(Array[U8] val, ByteArrays)]
     end
 
 
-class iso AddProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _AddProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/add/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=1000)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=1000)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     let add_me: Array[U8] val = [as U8: 'A'; 'B'; 'C'; 'D']
@@ -265,9 +264,9 @@ class iso AddProperty is Property1[(Array[U8] val, ByteArrays)]
     let added_ba = sample._2 + add_me
     h.assert_array_eq[U8](added_array, added_ba.array())
 
-class iso ArraysProperty is Property1[(Array[U8] val, ByteArrays)]
+class iso _ArraysProperty is Property1[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/arrays/property"
-  fun gen(): Generator[(Array[U8] val, ByteArrays)] => ByteArrayAndSourceGen(where max_size=100)
+  fun gen(): Generator[(Array[U8] val, ByteArrays)] => _ByteArrayAndSourceGen(where max_size=100)
 
   fun property(sample: (Array[U8] val, ByteArrays), h: PropertyHelper) =>
     h.log(sample._2.debug())
@@ -277,7 +276,7 @@ class iso ArraysProperty is Property1[(Array[U8] val, ByteArrays)]
     end
     h.assert_array_eq[U8](sample._1, consume acc)
 
-class iso ArraysTest is UnitTest
+class iso _ArraysTest is UnitTest
   fun name(): String => "valbytes/arrays"
   fun apply(h: TestHelper)? =>
     let ba = ByteArrays("abc".array(), ByteArrays("def".array()))
@@ -287,5 +286,73 @@ class iso ArraysTest is UnitTest
     h.assert_array_eq[U8]("abc".array(), arrs(0)?)
     h.assert_array_eq[U8]("def".array(), arrs(1)?)
 
+class iso _SipHash24Property is Property1[String]
+  """checks conformance with stdlib implementation."""
+
+  fun name(): String => "siphash24/property"
+
+  fun gen(): Generator[String] =>
+    Generators.byte_string(
+      Generators.u8(),
+      0,
+      100000
+    )
+
+  fun property(sample: String, h: PropertyHelper) =>
+    let my_siphash =
+      ifdef ilp32 then
+        HalfSipHash24.apply[String](sample).usize()
+      else
+        SipHash24.apply[String](sample).usize()
+      end
+    h.assert_eq[USize](my_siphash, sample.hash())
+
+class iso _SipHash24StreamingProperty is Property1[Array[U8]]
+  fun name(): String => "siphash24/streaming/property"
+
+  fun gen(): Generator[Array[U8]] =>
+    let sizeGen = Generators.usize(where min=0, max=100)
+    sizeGen.flat_map[Array[U8]]({(size: USize) =>
+      let arr_size = size * 8
+      Generators.array_of[U8](Generators.u8() where min = arr_size, max = arr_size)
+    })
+
+  fun property(sample: Array[U8], h: PropertyHelper) ? =>
+    var i: USize = 0
+    let endi = sample.size() - (sample.size() % 8)
+    let sip = SipHash24Streaming.create()
+
+    while i < endi do
+      let m = sample.read_u64(i)?
+      sip.update(m)
+      i = i + 8
+    end
+    let streaming_hash = sip.finish()
+    let array_hash = SipHash24.apply[Array[U8]](sample)
+    h.assert_eq[U64](array_hash, streaming_hash)
 
 
+class iso _HalfSipHash24StreamingProperty is Property1[Array[U8]]
+  fun name(): String => "halfsiphash24/streaming/property"
+
+  fun gen(): Generator[Array[U8]] =>
+    let sizeGen = Generators.usize(where min=0, max=100)
+    sizeGen.flat_map[Array[U8]]({(size: USize) =>
+      let arr_size = size * 4
+      Generators.array_of[U8](Generators.u8() where min = arr_size, max = arr_size)
+    })
+
+  fun property(sample: Array[U8], h: PropertyHelper) ? =>
+    var i: USize = 0
+    let endi = sample.size() - (sample.size() % 4)
+    h.log("size: " + sample.size().string())
+    let sip = HalfSipHash24Streaming.create()
+
+    while i < endi do
+      let m = sample.read_u32(i)?
+      sip.update(m)
+      i = i + 4
+    end
+    let streaming_hash = sip.finish()
+    let array_hash = HalfSipHash24.apply[Array[U8]](sample)
+    h.assert_eq[U32](array_hash, streaming_hash)
