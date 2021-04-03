@@ -12,8 +12,8 @@
   },
   "deps": [
     {
-      "locator": "github.com/mfelsche/ponycheck.git",
-      "version": "0.5.2"
+      "locator": "github.com/ponylang/ponycheck.git",
+      "version": "0.6.0"
     }
   ]
 }
