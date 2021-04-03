@@ -7,7 +7,7 @@
     "homepage": "https://github.com/ponylang/valbytes",
     "license": "BSD-2-Clause",
     "documentation_url": "https://ponylang.github.io/valbytes/",
-    "version": "0.5.1",
+    "version": "0.6.0",
     "name": "valbytes"
   },
   "deps": [
