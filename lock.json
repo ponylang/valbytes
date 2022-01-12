@@ -1,8 +1,8 @@
 {
   "locks": [
     {
-      "locator": "github.com/mfelsche/ponycheck.git",
-      "revision": "0.5.2"
+      "locator": "github.com/ponylang/ponycheck.git",
+      "revision": "0.6.1"
     }
   ]
 }
