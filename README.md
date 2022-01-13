@@ -4,7 +4,7 @@ Library for dealing with concatenated byte arrays as if it was a single byte arr
 
 ## Status
 
-valbytes is alpha software.
+valbytes is beta-level software.
 
 ## Installation
 
