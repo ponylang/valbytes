@@ -1,8 +1,0 @@
-{
-  "locks": [
-    {
-      "locator": "github.com/ponylang/ponycheck.git",
-      "revision": "0.6.1"
-    }
-  ]
-}
