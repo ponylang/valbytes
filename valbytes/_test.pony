@@ -1,5 +1,5 @@
 use "pony_test"
-use "ponycheck"
+use "pony_check"
 use "debug"
 
 actor \nodoc\ Main is TestList
