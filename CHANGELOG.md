@@ -2,18 +2,12 @@
 
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.6.2] - 2022-02-26
 
 ### Fixed
 
 - Update to address PonyTest package being renamed ([PR #16](https://github.com/ponylang/valbytes/pull/16))
 - Update to address PonyCheck package being renamed ([PR #17](https://github.com/ponylang/valbytes/pull/17))
-
-### Added
-
-
-### Changed
-
 
 ## [0.6.1] - 2022-01-16
 
