@@ -288,7 +288,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
 
     ```pony
     let ba = ByteArrays + "abc" + "def"
-    match \exhaustive\ ba.find("cd")
+    match ba.find("cd")
     | (true, let cd_index: USize) => "found"
     | (false, _) => "not found"
     end
