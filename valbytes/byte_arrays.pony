@@ -85,7 +85,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
 
         if is_right_leaf then
           while true do
-            match stack
+            match \exhaustive\ stack
             | let n: Nil[ByteArrays] =>
               keep_on = false // break the outer loop
               break
@@ -121,7 +121,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
     """
     Get a ByteArrays instance to the selected range.
     """
-    match (from, to)
+    match \exhaustive\ (from, to)
     | (0, -1) => this
     | (0, _left_size) =>
       ByteArrays(_left)
@@ -129,21 +129,21 @@ class val ByteArrays is (ValBytes & mut.Hashable)
       ByteArrays(_right)
     | (let f: USize, let t: USize) if t <= _left_size =>
       ByteArrays(
-        match _left
+        match \exhaustive\ _left
         | let lb: ByteArrays => lb.select(f, t)
         | let vb: ValBytes   => vb.trim(f, t)
         end
       )
     | (let f: USize, let t: USize) if f >= _left_size=>
       ByteArrays(
-        match _right
+        match \exhaustive\ _right
         | let lb: ByteArrays => lb.select(f - _left_size, t - _left_size)
         | let vb: ValBytes   => vb.trim(f - _left_size, t - _left_size)
         end
       )
     | (let f: USize, -1) if f < _left_size=>
       ByteArrays(
-        match _left
+        match \exhaustive\ _left
         | let lb: ByteArrays => lb.select(f, -1)
         | let vb: ValBytes   => vb.trim(f, -1)
         end,
@@ -152,18 +152,18 @@ class val ByteArrays is (ValBytes & mut.Hashable)
     | (0, let t: USize) if t > _left_size =>
       ByteArrays(
         _left,
-        match _right
+        match \exhaustive\ _right
         | let lb: ByteArrays => lb.select(0, t - _left_size)
         | let vb: ValBytes   => vb.trim(0, t - _left_size)
         end
       )
     else
       ByteArrays(
-        match _left
+        match \exhaustive\ _left
         | let lb: ByteArrays => lb.select(from, -1)
         | let vb: ValBytes   => vb.trim(from, -1)
         end,
-        match _right
+        match \exhaustive\ _right
         | let lb: ByteArrays => lb.select(0, to - _left_size)
         | let vb: ValBytes   => vb.trim(0, to - _left_size)
         end
@@ -231,7 +231,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
     ```
     """
     let that: ValBytes =
-      match other
+      match \exhaustive\ other
       | let t: String => t.array()
       | let vb: ValBytes => vb
       end
@@ -250,11 +250,11 @@ class val ByteArrays is (ValBytes & mut.Hashable)
 
   fun val debug(): String =>
     let ls =
-      match _left
+      match \exhaustive\ _left
       | let ba: ByteArrays => ba.debug()
       | let vb: ValBytes =>
         "[" +
-        match left()
+        match \exhaustive\ left()
         | let lb: ByteArrays    => lb.debug()
         | let la: Array[U8] val => String.from_array(la)
         // TODO: consider EmptyValBytes
@@ -263,11 +263,11 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         "]"
       end
     let rs =
-      match _right
+      match \exhaustive\ _right
       | let ba: ByteArrays => ba.debug()
       | let vb: ValBytes =>
         "[" +
-        match right()
+        match \exhaustive\ right()
         | let rb: ByteArrays => rb.debug()
         | let ra: Array[U8] val => String.from_array(ra)
         // TODO: consider EmptyValBytes
