@@ -1,7 +1,3 @@
-"""
-Count lines from standard input, similar to `wc -l`.
-"""
-
 // in your code this `use` statement would be:
 // use "valbytes"
 use "../../valbytes"
