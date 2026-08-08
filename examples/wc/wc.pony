@@ -1,7 +1,10 @@
+"""
+Count lines from standard input, similar to `wc -l`.
+"""
+
 // in your code this `use` statement would be:
 // use "valbytes"
 use "../../valbytes"
-
 
 actor Main
   """
@@ -24,7 +27,7 @@ actor Main
         fun ref dispose() =>
           var num_lines = USize(0)
           while buf.size() > 0 do
-            match buf.find("\n")
+            match \exhaustive\ buf.find("\n")
             | (true, let line_idx: USize) =>
               num_lines = num_lines + 1
               buf = buf.drop(line_idx + 1)

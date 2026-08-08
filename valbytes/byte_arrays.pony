@@ -3,6 +3,11 @@ use mut = "collections"
 use "debug"
 
 class val ByteArrays is (ValBytes & mut.Hashable)
+  """
+  Tree-backed immutable byte sequence with O(1)
+  concatenation and efficient slicing.
+  """
+
   let _left: ValBytes
   let _right: ValBytes
   let _left_size: USize
@@ -57,14 +62,14 @@ class val ByteArrays is (ValBytes & mut.Hashable)
           | let b: ByteArrays =>
             stack = stack.prepend(current)
             current = b
-            //Debug("left descend")
+            // Debug("left descend")
           | let a: Array[U8] val =>
             arr.push(a)
             is_leaf = true
-            //Debug("left leaf array")
+            // Debug("left leaf array")
           | EmptyValBytes =>
             is_leaf = true
-            //Debug("left leaf empty")
+            // Debug("left leaf empty")
           end
         until is_leaf end
 
@@ -72,14 +77,14 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         var is_right_leaf = false
         match current.right()
         | let b: ByteArrays =>
-          //Debug("right descend")
+          // Debug("right descend")
           current = b
         | let a: Array[U8] val =>
-          //Debug("right leaf array")
+          // Debug("right leaf array")
           arr.push(a)
           is_right_leaf = true
         | EmptyValBytes =>
-          //Debug("right leaf empty")
+          // Debug("right leaf empty")
           is_right_leaf = true
         end
 
@@ -105,7 +110,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         end
       else
         // shouldnt happen
-        //Debug("error")
+        // Debug("error")
         break
       end
     end
@@ -209,14 +214,20 @@ class val ByteArrays is (ValBytes & mut.Hashable)
       let offset = last.min(src_idx)
       let left_bytes_to_copy = _left_size - offset
       _left.copy_to(dst, offset, dst_idx, left_bytes_to_copy)
-      _right.copy_to(dst, 0, dst_idx + left_bytes_to_copy, len - left_bytes_to_copy)
+      _right.copy_to(
+        dst,
+        0,
+        dst_idx + left_bytes_to_copy,
+        len - left_bytes_to_copy)
     end
 
   fun string(from: USize = 0, to: USize = -1): String val =>
     """
     diverges from usual Stringable.string in that
-    it can be used to get a substring of the whole ByteArrays instance
-    and that the result is val and in best case no additional allocation was necessary.
+    it can be used to get a substring of the whole
+    ByteArrays instance and that the result is val
+    and in best case no additional allocation was
+    necessary.
     """
     String.from_array(trim(from, to))
 
@@ -258,7 +269,7 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         | let lb: ByteArrays    => lb.debug()
         | let la: Array[U8] val => String.from_array(la)
         // TODO: consider EmptyValBytes
-        | let lv: ValBytes      => recover val String.>concat(lv.values()) end
+        | let lv: ValBytes      => recover val String .> concat(lv.values()) end
         end +
         "]"
       end
@@ -271,20 +282,25 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         | let rb: ByteArrays => rb.debug()
         | let ra: Array[U8] val => String.from_array(ra)
         // TODO: consider EmptyValBytes
-        | let rv: ValBytes      => recover val String.>concat(rv.values()) end
+        | let rv: ValBytes      => recover val String .> concat(rv.values()) end
         end
         + "]"
       end
 
     "[" + ls + "-" + rs + "]"
 
-
-  fun find(sub: ReadSeq[U8], start: USize = 0, stop: USize = -1): (Bool, USize) =>
+  fun find(
+    sub: ReadSeq[U8],
+    start: USize = 0,
+    stop: USize = -1)
+    : (Bool, USize)
+  =>
     """
     Try to find `sub` in this ByteArrays.
 
-    If found, returns a tuple with the first element being `true` and the second element
-    being the starting index of `sub` in this.
+    If found, returns a tuple with the first element
+    being `true` and the second element being the
+    starting index of `sub` in this.
 
     ```pony
     let ba = ByteArrays + "abc" + "def"
@@ -344,7 +360,8 @@ class val ByteArrays is (ValBytes & mut.Hashable)
 
   fun skip(skip_chars: ReadSeq[U8], start: USize = 0): USize =>
     """
-    return the first index in this that doesnt contain any element of `skip_chars`.
+    return the first index in this that doesnt
+    contain any element of `skip_chars`.
 
     If we reach the end while skipping USize.max_value() is returned.
     """
@@ -372,7 +389,6 @@ class val ByteArrays is (ValBytes & mut.Hashable)
     else
       USize.max_value()
     end
-
 
   fun hash(): USize =>
     ifdef ilp32 then
@@ -460,7 +476,4 @@ class val ByteArrays is (ValBytes & mut.Hashable)
       (this(offset + 14)?.u128() << 112) or
       (this(offset + 15)?.u128() << 120)
     end
-
-
-
 
