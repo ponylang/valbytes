@@ -29,7 +29,6 @@ class ref SipHash24Streaming
   var _v1: U64 = 0
   var _v2: U64 = 0
   var _v3: U64 = 0
-
   var _size: USize = 0
 
   new ref create() =>
@@ -77,6 +76,9 @@ class ref SipHash24Streaming
     result
 
 primitive SipHash24
+  """
+  Compute a SipHash-2-4 over a `ReadSeq[U8]`.
+  """
 
   fun _k0(): U64 => U64(0x8A109C6B22D309FE)
   fun _k1(): U64 => U64(0x9F923FCCB57235E1)
@@ -97,10 +99,12 @@ primitive SipHash24
     t1 = t1 xor t2
     t2 = t2.rotl(32)
 
-
     (t0, t1, t2, t3)
 
   fun apply[T: ReadSeq[U8] #read](data: T): U64 =>
+    """
+    Hash `data` and return the 64-bit digest.
+    """
     let size = data.size()
     var b: U64  = (size << USize(56)).u64()
 
@@ -176,13 +180,15 @@ primitive SipHash24
       -1
     end
 
-
 class ref HalfSipHash24Streaming
+  """
+  Streaming HalfSipHash-2-4 for incremental U32 input.
+  """
+
   var _v0: U32 = 0
   var _v1: U32 = 0
   var _v2: U32 = 0
   var _v3: U32 = 0
-
   var _size: USize = 0
 
   new ref create() =>
@@ -199,6 +205,9 @@ class ref HalfSipHash24Streaming
     _size = 0
 
   fun ref update(m: U32) =>
+    """
+    Hash `m` and update the internal state.
+    """
     _v3 = _v3 xor m
     (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
     (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
@@ -206,6 +215,10 @@ class ref HalfSipHash24Streaming
     _size = _size + 4
 
   fun ref finish(): U32 =>
+    """
+    Compute the hash from accumulated data and
+    reset the internal state.
+    """
     let b  = (_size << USize(24)).u32()
     _v3 = _v3 xor b
     (_v0, _v1, _v2, _v3) = HalfSipHash24._sipround32(_v0, _v1, _v2, _v3)
@@ -221,6 +234,9 @@ class ref HalfSipHash24Streaming
     result
 
 primitive HalfSipHash24
+  """
+  Compute a HalfSipHash-2-4 over a `ReadSeq[U8]`.
+  """
 
   fun _k0(): U32 => U32(0x22D309FE)
   fun _k1(): U32 => U32(0x8A109C6B)
@@ -244,7 +260,9 @@ primitive HalfSipHash24
     (t0, t1, t2, t3)
 
   fun apply[T: ReadSeq[U8] #read](data: T): U32 =>
-
+    """
+    Hash `data` and return the 32-bit digest.
+    """
     let size = data.size()
     var b: U32  = (size << USize(24)).u32()
 
