@@ -87,16 +87,16 @@ primitive \nodoc\ _ByteArrayAndSourceGen
     let size_gen =
       Generators.usize(min_size, max_size)
     let array_and_splits_gen
-      : Generator[(Array[U8] iso, Array[USize] iso)]
-    =
+      : Generator[(Array[U8] iso, Array[USize] iso)] =
+
       size_gen
         .flat_map[(Array[U8] iso, Array[USize] iso)](
         {(size: USize)
           : Generator[(Array[U8] iso, Array[USize] iso)]
         =>
           let array_gen
-            : Generator[Array[U8] iso]
-          =
+            : Generator[Array[U8] iso] =
+
             Generators.iso_seq_of[U8, Array[U8] iso](
               Generators.u8('a', 'z'),
               size,
@@ -283,16 +283,16 @@ class \nodoc\ iso _ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
       h.assert_eq[U8](
         array_elem,
         ba_elem,
-        "differing elements at index: "
-          + i.string())
+        "differing elements at index: " +
+          i.string())
       i = i + 1
     end
     if array_iter.has_next() or
       ba_iter.has_next()
     then
       h.fail(
-        "ByteArrays.values() longer than "
-          + "Array.values().")
+        "ByteArrays.values() longer than " +
+          "Array.values().")
     end
 
 class \nodoc\ iso _ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
@@ -310,8 +310,8 @@ class \nodoc\ iso _ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
       h.assert_eq[U8](
         sample._1(i)?,
         sample._2(i)?,
-        "Differing result from apply at index "
-          + i.string())
+        "Differing result from apply at index " +
+          i.string())
       i = i + 1
     end
 

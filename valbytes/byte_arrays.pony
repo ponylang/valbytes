@@ -283,8 +283,8 @@ class val ByteArrays is (ValBytes & mut.Hashable)
         | let ra: Array[U8] val => String.from_array(ra)
         // TODO: consider EmptyValBytes
         | let rv: ValBytes      => recover val String .> concat(rv.values()) end
-        end
-        + "]"
+        end +
+        "]"
       end
 
     "[" + ls + "-" + rs + "]"
