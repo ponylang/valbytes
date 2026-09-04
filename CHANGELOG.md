@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Changed
 
+- Update to work with ponyc 0.70.0 ([PR #68](https://github.com/ponylang/valbytes/pull/68))
 
 ## [0.6.2] - 2022-02-26
 
