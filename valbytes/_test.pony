@@ -105,7 +105,7 @@ primitive \nodoc\ _ByteArrayAndSourceGen
             Generators
               .iso_seq_of[USize, Array[USize] iso](
                 Generators.usize(
-                  where min=0, max=size),
+                  where from = 0, to = size),
                 size,
                 size * 10)
               .filter({(arr) =>
@@ -491,14 +491,14 @@ class \nodoc\ iso _SipHash24StreamingProperty is Property1[Array[U8]]
 
   fun gen(): Generator[Array[U8]] =>
     let size_gen =
-      Generators.usize(where min=0, max=100)
+      Generators.usize(where from = 0, to = 100)
     size_gen.flat_map[Array[U8]](
       {(size: USize) =>
         let arr_size = size * 8
         Generators.array_of[U8](
           Generators.u8()
-            where min = arr_size,
-            max = arr_size)
+            where from = arr_size,
+            to = arr_size)
       })
 
   fun property(
@@ -527,14 +527,14 @@ class \nodoc\ iso _HalfSipHash24StreamingProperty is Property1[Array[U8]]
 
   fun gen(): Generator[Array[U8]] =>
     let size_gen =
-      Generators.usize(where min=0, max=100)
+      Generators.usize(where from = 0, to = 100)
     size_gen.flat_map[Array[U8]](
       {(size: USize) =>
         let arr_size = size * 4
         Generators.array_of[U8](
           Generators.u8()
-            where min = arr_size,
-            max = arr_size)
+            where from = arr_size,
+            to = arr_size)
       })
 
   fun property(
