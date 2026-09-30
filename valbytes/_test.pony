@@ -1,5 +1,4 @@
 use "pony_test"
-use "pony_check"
 use "debug"
 
 actor \nodoc\ Main is TestList
@@ -8,36 +7,21 @@ actor \nodoc\ Main is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_NumericReadableTest)
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _SizeProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _HashProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _DropProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _TakeProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _SelectProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _ValuesProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _ApplyProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _TrimProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _FindProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _AddProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _ReadNumericProperty))
-    test(Property1UnitTest[(Array[U8] val, ByteArrays)](
-      _ArraysProperty))
-    test(Property1UnitTest[String](
-      _SipHash24Property))
-    test(Property1UnitTest[Array[U8]](
-      _SipHash24StreamingProperty))
-    test(Property1UnitTest[Array[U8]](
-      _HalfSipHash24StreamingProperty))
+    test.property(_SizeProperty)
+    test.property(_HashProperty)
+    test.property(_DropProperty)
+    test.property(_TakeProperty)
+    test.property(_SelectProperty)
+    test.property(_ValuesProperty)
+    test.property(_ApplyProperty)
+    test.property(_TrimProperty)
+    test.property(_FindProperty)
+    test.property(_AddProperty)
+    test.property(_ReadNumericProperty)
+    test.property(_ArraysProperty)
+    test.property(_SipHash24Property)
+    test.property(_SipHash24StreamingProperty)
+    test.property(_HalfSipHash24StreamingProperty)
 
 class \nodoc\ iso _NumericReadableTest is UnitTest
   fun name(): String => "valbytes/numeric-readable"
@@ -148,7 +132,7 @@ primitive \nodoc\ _ByteArrayAndSourceGen
         (immutable_arr, ba)
       })
 
-class \nodoc\ iso _SizeProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _SizeProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/size/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -163,7 +147,7 @@ class \nodoc\ iso _SizeProperty is Property1[(Array[U8] val, ByteArrays)]
     h.assert_array_eq[U8](
       sample._1, sample._2.array())
 
-class \nodoc\ iso _HashProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _HashProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/hash/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -178,7 +162,7 @@ class \nodoc\ iso _HashProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._2.hash()
     )
 
-class \nodoc\ iso _DropProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _DropProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/drop/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -208,7 +192,7 @@ class \nodoc\ iso _DropProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.trim(middle, sample._1.size()),
       sample._2.drop(middle).array())
 
-class \nodoc\ iso _TakeProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _TakeProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/take/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -235,7 +219,7 @@ class \nodoc\ iso _TakeProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.trim(0, middle),
       sample._2.take(middle).array())
 
-class \nodoc\ iso _SelectProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _SelectProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/select/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -260,7 +244,7 @@ class \nodoc\ iso _SelectProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.trim(some, sample_size),
       sample._2.select(some, sample_size))
 
-class \nodoc\ iso _ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _ValuesProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/values/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -295,7 +279,7 @@ class \nodoc\ iso _ValuesProperty is Property1[(Array[U8] val, ByteArrays)]
           "Array.values().")
     end
 
-class \nodoc\ iso _ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _ApplyProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/apply/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -315,7 +299,7 @@ class \nodoc\ iso _ApplyProperty is Property1[(Array[U8] val, ByteArrays)]
       i = i + 1
     end
 
-class \nodoc\ iso _TrimProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _TrimProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/trim/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -337,7 +321,7 @@ class \nodoc\ iso _TrimProperty is Property1[(Array[U8] val, ByteArrays)]
     h.assert_array_eq[U8](
       sample._1, sample._2.trim())
 
-class \nodoc\ iso _ReadNumericProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _ReadNumericProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String =>
     "valbytes/read-numeric/property"
 
@@ -364,7 +348,7 @@ class \nodoc\ iso _ReadNumericProperty is Property1[(Array[U8] val, ByteArrays)]
       sample._1.read_u128(0)?,
       sample._2.read_u128(0)?)
 
-class \nodoc\ iso _SkipProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _SkipProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/skip/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -378,7 +362,7 @@ class \nodoc\ iso _SkipProperty is Property1[(Array[U8] val, ByteArrays)]
     // TODO
     None
 
-class \nodoc\ iso _FindProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _FindProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/find/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -406,7 +390,7 @@ class \nodoc\ iso _FindProperty is Property1[(Array[U8] val, ByteArrays)]
       h.fail("unable to find its whole content.")
     end
 
-class \nodoc\ iso _AddProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _AddProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/add/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -426,7 +410,7 @@ class \nodoc\ iso _AddProperty is Property1[(Array[U8] val, ByteArrays)]
     h.assert_array_eq[U8](
       added_array, added_ba.array())
 
-class \nodoc\ iso _ArraysProperty is Property1[(Array[U8] val, ByteArrays)]
+class \nodoc\ iso _ArraysProperty is Property[(Array[U8] val, ByteArrays)]
   fun name(): String => "valbytes/arrays/property"
 
   fun gen(): Generator[(Array[U8] val, ByteArrays)] =>
@@ -461,7 +445,7 @@ class \nodoc\ iso _ArraysTest is UnitTest
     h.assert_array_eq[U8](
       "def".array(), arrs(1)?)
 
-class \nodoc\ iso _SipHash24Property is Property1[String]
+class \nodoc\ iso _SipHash24Property is Property[String]
   """
   checks conformance with stdlib implementation.
   """
@@ -485,7 +469,7 @@ class \nodoc\ iso _SipHash24Property is Property1[String]
       end
     h.assert_eq[USize](my_siphash, sample.hash())
 
-class \nodoc\ iso _SipHash24StreamingProperty is Property1[Array[U8]]
+class \nodoc\ iso _SipHash24StreamingProperty is Property[Array[U8]]
   fun name(): String =>
     "siphash24/streaming/property"
 
@@ -521,7 +505,7 @@ class \nodoc\ iso _SipHash24StreamingProperty is Property1[Array[U8]]
     h.assert_eq[U64](
       array_hash, streaming_hash)
 
-class \nodoc\ iso _HalfSipHash24StreamingProperty is Property1[Array[U8]]
+class \nodoc\ iso _HalfSipHash24StreamingProperty is Property[Array[U8]]
   fun name(): String =>
     "halfsiphash24/streaming/property"
 
