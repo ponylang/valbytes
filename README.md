@@ -10,7 +10,7 @@ valbytes is beta-level software.
 
 * Requires ponyc 0.74.0 or later.
 * Install [corral](https://github.com/ponylang/corral)
-* `corral add github.com/ponylang/valbytes.git --version 0.7.0`
+* `corral add github.com/ponylang/valbytes.git --version 0.8.0`
 * `corral fetch` to fetch your dependencies
 * `use "valbytes"` to include this package
 * `corral run -- ponyc` to compile your application
