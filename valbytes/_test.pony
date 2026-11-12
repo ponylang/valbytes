@@ -7,6 +7,7 @@ actor \nodoc\ Main is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_NumericReadableTest)
+    test(_DebugTest)
     test.property(_SizeProperty)
     test.property(_HashProperty)
     test.property(_DropProperty)
@@ -22,6 +23,30 @@ actor \nodoc\ Main is TestList
     test.property(_SipHash24Property)
     test.property(_SipHash24StreamingProperty)
     test.property(_HalfSipHash24StreamingProperty)
+
+class \nodoc\ iso _DebugTest is UnitTest
+  fun name(): String => "valbytes/debug"
+
+  fun apply(h: TestHelper) =>
+    h.assert_eq[String]("[[]-[]]", ByteArrays.debug(), "empty children")
+    h.assert_eq[String](
+      "[[]-[r]]", ByteArrays(EmptyValBytes, "r".array()).debug(), "empty left")
+    h.assert_eq[String](
+      "[[l]-[]]", ByteArrays("l".array()).debug(), "empty right")
+    h.assert_eq[String](
+      "[[ab]-[cd]]",
+      ByteArrays("ab".array(), "cd".array()).debug(),
+      "array leaves")
+    h.assert_eq[String](
+      "[[]-[]]", ByteArrays("".array(), "".array()).debug(), "empty arrays")
+    h.assert_eq[String](
+      "[[[a]-[b]]-[c]]",
+      ByteArrays(ByteArrays("a".array(), "b".array()), "c".array()).debug(),
+      "nested left")
+    h.assert_eq[String](
+      "[[a]-[[b]-[c]]]",
+      ByteArrays("a".array(), ByteArrays("b".array(), "c".array())).debug(),
+      "nested right")
 
 class \nodoc\ iso _NumericReadableTest is UnitTest
   fun name(): String => "valbytes/numeric-readable"
